@@ -22,8 +22,8 @@ module.exports = {
 
 const userScores = new Map();
 
-async function animeTrivia(message, client, sessionId) {
-  if (message.body === '!trivia') {
+async function animeTrivia(message, client, sessionId, require, console, prefix) {
+  if (message.body === prefix + 'trivia') {
     const randomQuestion = triviaQuestions[Math.floor(Math.random() * triviaQuestions.length)];
     let optionsText = '';
     
@@ -35,7 +35,7 @@ async function animeTrivia(message, client, sessionId) {
       \`❓ Anime Trivia Question:\\n\\n` +
       \`\${randomQuestion.question}\\n\\n` +
       \`\${optionsText}\\n` +
-      \`Reply with !answer <number> to answer!\`
+      \`Reply with \${prefix}answer <number> to answer!\`
     );
     
     // Store the current question for the user
@@ -45,9 +45,9 @@ async function animeTrivia(message, client, sessionId) {
     userScores.get(message.from).currentQuestion = randomQuestion;
   }
   
-  if (message.body.startsWith('!answer')) {
+  if (message.body.startsWith(prefix + 'answer')) {
     if (!userScores.has(message.from)) {
-      await client.sendMessage(message.from, "Start a trivia game first with !trivia");
+      await client.sendMessage(message.from, "Start a trivia game first with " + prefix + "trivia");
       return;
     }
     
@@ -71,7 +71,7 @@ async function animeTrivia(message, client, sessionId) {
     userData.currentQuestion = null;
   }
   
-  if (message.body === '!triviascore') {
+  if (message.body === prefix + 'triviascore') {
     const score = userScores.has(message.from) ? userScores.get(message.from).score : 0;
     await client.sendMessage(message.from, \`🏆 Your trivia score: \${score}\`);
   }
