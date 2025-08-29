@@ -10,8 +10,8 @@ cron.schedule('0 9 * * 1', async () => {
   console.log('Sending weekly cosplay event updates...');
 });
 
-async function cosplayEvents(message, client, sessionId) {
-  if (message.body.startsWith('!cosplayevents')) {
+async function cosplayEvents(message, client, sessionId, require, console, prefix) {
+  if (message.body.startsWith(prefix + 'cosplayevents')) {
     const location = message.body.split(' ')[1] || 'online';
     
     await client.sendMessage(message.from, 
@@ -19,11 +19,11 @@ async function cosplayEvents(message, client, sessionId) {
       \`• Anime Convention - June 15-16, 2024\\n` +
       \`• Cosplay Contest - July 20, 2024\\n` +
       \`• Virtual CosMeet - August 5, 2024\\n\\n` +
-      \`Use !eventinfo <eventname> for more details.\`
+      \`Use \${prefix}eventinfo <eventname> for more details.\`
     );
   }
   
-  if (message.body.startsWith('!eventinfo')) {
+  if (message.body.startsWith(prefix + 'eventinfo')) {
     const eventName = message.body.split(' ').slice(1).join(' ');
     await client.sendMessage(message.from, 
       \`📅 Event: \${eventName}\\n` +
