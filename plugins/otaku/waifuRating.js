@@ -10,8 +10,8 @@ module.exports = {
   "Kurisu Makise": { rating: 9, comment: "Brilliant scientist tsundere. Elite class!" }
 };
 
-async function waifuRating(message, client, sessionId) {
-  if (message.body.startsWith('!ratewaifu')) {
+async function waifuRating(message, client, sessionId, require, console, prefix) {
+  if (message.body.startsWith(prefix + 'ratewaifu')) {
     const waifuName = message.body.split(' ').slice(1).join(' ');
     
     if (waifuRatings[waifuName]) {
@@ -41,7 +41,7 @@ async function waifuRating(message, client, sessionId) {
     }
   }
   
-  if (message.body === '!topwaifus') {
+  if (message.body === prefix + 'topwaifus') {
     let response = '👑 Top Waifus:\\n\\n';
     const sortedWaifus = Object.entries(waifuRatings)
       .sort((a, b) => b[1].rating - a[1].rating)
