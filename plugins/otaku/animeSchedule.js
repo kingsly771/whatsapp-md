@@ -12,8 +12,8 @@ module.exports = {
   "Sunday": ["New episodes various series"]
 };
 
-async function animeSchedule(message, client, sessionId) {
-  if (message.body === '!schedule') {
+async function animeSchedule(message, client, sessionId, require, console, prefix) {
+  if (message.body === prefix + 'schedule') {
     const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
     const todayAnime = weeklySchedule[today] || ["No scheduled anime today"];
     
@@ -25,7 +25,7 @@ async function animeSchedule(message, client, sessionId) {
     await client.sendMessage(message.from, response);
   }
   
-  if (message.body.startsWith('!schedule')) {
+  if (message.body.startsWith(prefix + 'schedule')) {
     const day = message.body.split(' ')[1];
     
     if (day && weeklySchedule[day]) {
