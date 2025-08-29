@@ -1,0 +1,9 @@
+# WhatsApp Session Storage
+# ========================
+# This directory stores WhatsApp authentication sessions
+# Actual session files are ignored by git for security reasons
+#
+# Directory structure:
+# - sessions/{session-id}/ (auto-created by whatsapp-web.js)
+#
+# DO NOT commit actual session files to version control
