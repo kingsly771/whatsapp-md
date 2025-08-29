@@ -10,8 +10,8 @@ module.exports = {
   "Crunchyroll adds 50 new titles to catalog"
 ];
 
-async function animeNews(message, client, sessionId) {
-  if (message.body === '!animenews') {
+async function animeNews(message, client, sessionId, require, console, prefix) {
+  if (message.body === prefix + 'animenews') {
     const randomNews = animeNews[Math.floor(Math.random() * animeNews.length)];
     await client.sendMessage(message.from, 
       \`📰 Anime News: \${randomNews}\\n\\n` +
@@ -19,7 +19,7 @@ async function animeNews(message, client, sessionId) {
     );
   }
   
-  if (message.body === '!latestnews') {
+  if (message.body === prefix + 'latestnews') {
     let response = '📰 Latest Anime News:\\n\\n';
     for (let i = 0; i < Math.min(3, animeNews.length); i++) {
       response += \`• \${animeNews[i]}\\n\`;
