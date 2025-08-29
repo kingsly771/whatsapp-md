@@ -1,0 +1,11 @@
+# Backup Storage
+# ==============
+# This directory stores automatic backups of chat data and configurations
+# Backups are ignored by git as they may contain sensitive information
+#
+# Backup types:
+# - chat_backups/    # Chat export data
+# - config_backups/  # Configuration backups
+# - plugin_backups/  # Plugin state backups
+#
+# Backups are automatically rotated based on retention policy
