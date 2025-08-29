@@ -1,0 +1,11 @@
+# User Data Storage
+# =================
+# This directory stores user-specific data and preferences
+# User data is ignored by git for privacy reasons
+#
+# Contents may include:
+# - user_preferences/  # Individual user settings
+# - user_stats/        # Usage statistics
+# - custom_data/       # User-generated content
+#
+# All user data should be treated as sensitive information
