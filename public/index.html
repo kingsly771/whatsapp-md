@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Bot Manager</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fab fa-whatsapp"></i> WhatsApp Bot Manager</h1>
+            <p class="subtitle">Manage your bot with prefix: <span id="botPrefix" class="prefix-display">!</span></p>
+        </header>
+
+        <div class="connection-panel">
+            <div class="qr-code">
+                <h2>QR Code Connection</h2>
+                <div class="qr-placeholder">
+                    <div id="qrcode">QR Code will appear here</div>
+                </div>
+                <button class="btn" onclick="createSession()">
+                    <i class="fas fa-qrcode"></i> Generate QR Code
+                </button>
+            </div>
+            
+            <div class="pairing-code">
+                <h2>Session Management</h2>
+                <div class="session-status">
+                    <div class="status">
+                        <div class="status-dot" id="statusDot"></div>
+                        <span id="statusText">Disconnected</span>
+                    </div>
+                    <div id="sessionIdDisplay">Session ID: Not set</div>
+                </div>
+                <button class="btn" onclick="checkStatus()">
+                    <i class="fas fa-sync"></i> Check Status
+                </button>
+                <button class="btn btn-danger" onclick="disconnectSession()">
+                    <i class="fas fa-plug"></i> Disconnect
+                </button>
+            </div>
+        </div>
+
+        <div class="bot-config">
+            <h2>Bot Configuration</h2>
+            <div class="config-item">
+                <label>Command Prefix:</label>
+                <span class="prefix-value" id="commandPrefix">!</span>
+            </div>
+            <div class="config-item">
+                <label>Admin Prefix:</label>
+                <span class="prefix-value" id="adminPrefix">!!</span>
+            </div>
+        </div>
+
+        <div class="plugins-section">
+            <h2>Available Plugins <span class="plugin-count">(<span id="pluginCount">0</span>)</span></h2>
+            
+            <div class="filter-controls">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="general">General</button>
+                <button class="filter-btn" data-filter="otaku">Otaku</button>
+                <button class="filter-btn" data-filter="enabled">Enabled</button>
+                <button class="filter-btn" data-filter="disabled">Disabled</button>
+            </div>
+
+            <div class="plugins-container" id="pluginsContainer">
+                <!-- Plugins will be loaded here -->
+            </div>
+        </div>
+
+        <div class="command-help">
+            <h2>Command Usage</h2>
+            <div class="help-content">
+                <p>All commands start with: <code id="helpPrefix">!</code></p>
+                <div class="command-examples">
+                    <h4>Examples:</h4>
+                    <ul>
+                        <li><code>!help</code> - Show help</li>
+                        <li><code>!animeme</code> - Get random anime meme</li>
+                        <li><code>!recommend action</code> - Get anime recommendation</li>
+                        <li><code>!!admin</code> - Admin commands (if configured)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification System -->
+    <div id="notification" class="notification hidden">
+        <span id="notificationMessage"></span>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/sessionManager.js"></script>
+    <script src="js/pluginManager.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
