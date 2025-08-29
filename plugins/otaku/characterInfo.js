@@ -2,8 +2,8 @@ module.exports = {
   name: 'Character Info',
   description: 'Provides information about anime characters',
   version: '1.0.0',
-  code: `async function characterInfo(message, client, sessionId) {
-  if (message.body.startsWith('!character')) {
+  code: `async function characterInfo(message, client, sessionId, require, console, prefix) {
+  if (message.body.startsWith(prefix + 'character')) {
     const characterName = message.body.split(' ').slice(1).join(' ');
     
     if (characterName) {
