@@ -4,8 +4,8 @@ module.exports = {
   version: '1.0.0',
   code: `const watchParties = new Map();
 
-async function watchParty(message, client, sessionId) {
-  if (message.body.startsWith('!createwatchparty')) {
+async function watchParty(message, client, sessionId, require, console, prefix) {
+  if (message.body.startsWith(prefix + 'createwatchparty')) {
     const params = message.body.split(' ').slice(1);
     if (params.length >= 2) {
       const animeName = params.slice(0, -1).join(' ');
@@ -21,12 +21,12 @@ async function watchParty(message, client, sessionId) {
         \`🎉 Watch Party Created!\\n\\n` +
         \`Anime: \${animeName}\\n` +
         \`Time: \${time}\\n\\n` +
-        \`Use !joinwatchparty \${animeName} to join!\`
+        \`Use \${prefix}joinwatchparty \${animeName} to join!\`
       );
     }
   }
   
-  if (message.body.startsWith('!joinwatchparty')) {
+  if (message.body.startsWith(prefix + 'joinwatchparty')) {
     const animeName = message.body.split(' ').slice(1).join(' ');
     const party = watchParties.get(animeName);
     
@@ -40,7 +40,7 @@ async function watchParty(message, client, sessionId) {
     }
   }
   
-  if (message.body.startsWith('!watchparties')) {
+  if (message.body.startsWith(prefix + 'watchparties')) {
     if (watchParties.size === 0) {
       await client.sendMessage(message.from, 'No watch parties scheduled yet.');
       return;
