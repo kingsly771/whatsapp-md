@@ -23,8 +23,8 @@ async function help(message, client, sessionId, require, console, prefix) {
   
   if (recentRequests.length >= 3) {
     await client.sendMessage(user, 
-      \`⏰ Please wait a minute before requesting help again.\\n` +
-      \`You've made \${recentRequests.length} help requests in the last minute.\`
+      '⏰ Please wait a minute before requesting help again.\\n' +
+      'You\\'ve made ' + recentRequests.length + ' help requests in the last minute.'
     );
     return;
   }
@@ -65,33 +65,33 @@ async function showMainHelp(message, client, prefix) {
     pluginsByCategory[plugin.category].push(plugin);
   });
 
-  let helpMessage = \`🤖 *WhatsApp Bot Help* 🤖\\n\\n\`;
-  helpMessage += \`*Prefix:* \${prefix}\\n\`;
-  helpMessage += \`*Admin Prefix:* \${config.bot.adminPrefix}\\n\\n\`;
+  let helpMessage = '🤖 *WhatsApp Bot Help* 🤖\\n\\n';
+  helpMessage += '*Prefix:* ' + prefix + '\\n';
+  helpMessage += '*Admin Prefix:* ' + config.bot.adminPrefix + '\\n\\n';
   
-  helpMessage += \`*📋 Available Categories:*\\n\`;
+  helpMessage += '*📋 Available Categories:*\\n';
   for (const category in pluginsByCategory) {
-    helpMessage += \`• \${category.charAt(0).toUpperCase() + category.slice(1)} (\${pluginsByCategory[category].length} commands)\\n\`;
+    helpMessage += '• ' + category.charAt(0).toUpperCase() + category.slice(1) + ' (' + pluginsByCategory[category].length + ' commands)\\n';
   }
   
-  helpMessage += \`\\n*🔧 Basic Commands:*\\n\`;
-  helpMessage += \`• \${prefix}help - Show this message\\n\`;
-  helpMessage += \`• \${prefix}help <command> - Detailed help for a command\\n\`;
-  helpMessage += \`• \${prefix}commands - List all available commands\\n\`;
-  helpMessage += \`• \${prefix}stats - Show bot statistics\\n\`;
-  helpMessage += \`• \${prefix}tutorial - Basic usage tutorial\\n\`;
+  helpMessage += '\\n*🔧 Basic Commands:*\\n';
+  helpMessage += '• ' + prefix + 'help - Show this message\\n';
+  helpMessage += '• ' + prefix + 'help <command> - Detailed help for a command\\n';
+  helpMessage += '• ' + prefix + 'commands - List all available commands\\n';
+  helpMessage += '• ' + prefix + 'stats - Show bot statistics\\n';
+  helpMessage += '• ' + prefix + 'tutorial - Basic usage tutorial\\n';
   
-  helpMessage += \`\\n*🎯 Popular Commands:*\\n\`;
+  helpMessage += '\\n*🎯 Popular Commands:*\\n';
   // Show top 3 most used commands
   const popularCommands = Array.from(commandUsage.entries())
     .sort((a, b) => b[1] - a[1])
     .slice(0, 3)
-    .map(([cmd]) => \`• \${cmd}\\n\`)
+    .map(([cmd]) => '• ' + cmd + '\\n')
     .join('');
   
-  helpMessage += popularCommands || \`• \${prefix}animeme\\n• \${prefix}quote\\n• \${prefix}recommend\\n\`;
+  helpMessage += popularCommands || '• ' + prefix + 'animeme\\n• ' + prefix + 'quote\\n• ' + prefix + 'recommend\\n';
   
-  helpMessage += \`\\n💡 *Tip:* Use \${prefix}help <command> for detailed information about any command!\`;
+  helpMessage += '\\n💡 *Tip:* Use ' + prefix + 'help <command> for detailed information about any command!';
   
   await client.sendMessage(message.from, helpMessage);
 }
@@ -102,45 +102,45 @@ async function showCommandHelp(message, client, prefix, commandName) {
   
   // Find plugin that handles this command
   const plugin = enabledPlugins.find(p => 
-    p.code.includes(\`\${prefix}\${command}\`) || 
+    p.code.includes(prefix + command) || 
     p.name.toLowerCase().includes(command)
   );
   
   if (!plugin) {
     await client.sendMessage(message.from, 
-      \`❌ Command "\${command}" not found.\\n\\n` +
-      \`Use \${prefix}commands to see all available commands.\\n` +
-      \`Or use \${prefix}help for general assistance.\`
+      '❌ Command "' + command + '" not found.\\n\\n' +
+      'Use ' + prefix + 'commands to see all available commands.\\n' +
+      'Or use ' + prefix + 'help for general assistance.'
     );
     return;
   }
   
-  let helpMessage = \`📖 *Command Help: \${prefix}\${command}*\\n\\n\`;
-  helpMessage += \`*Plugin:* \${plugin.name}\\n\`;
-  helpMessage += \`*Category:* \${plugin.category}\\n\`;
-  helpMessage += \`*Description:* \${plugin.description}\\n\`;
-  helpMessage += \`*Version:* \${plugin.version}\\n\\n\`;
+  let helpMessage = '📖 *Command Help: ' + prefix + command + '*\\n\\n';
+  helpMessage += '*Plugin:* ' + plugin.name + '\\n';
+  helpMessage += '*Category:* ' + plugin.category + '\\n';
+  helpMessage += '*Description:* ' + plugin.description + '\\n';
+  helpMessage += '*Version:* ' + plugin.version + '\\n\\n';
   
   // Extract usage examples from plugin code
   const usageExamples = extractUsageExamples(plugin.code, prefix);
   if (usageExamples.length > 0) {
-    helpMessage += \`*Usage Examples:*\\n\`;
+    helpMessage += '*Usage Examples:*\\n';
     usageExamples.forEach(example => {
-      helpMessage += \`• \${example}\\n\`;
+      helpMessage += '• ' + example + '\\n';
     });
-    helpMessage += \`\\n\`;
+    helpMessage += '\\n';
   }
   
   // Add common usage patterns
-  helpMessage += \`*Common Usage:*\\n\`;
-  helpMessage += \`• \${prefix}\${command} - Basic usage\\n\`;
+  helpMessage += '*Common Usage:*\\n';
+  helpMessage += '• ' + prefix + command + ' - Basic usage\\n';
   
   if (command.includes('recommend')) {
-    helpMessage += \`• \${prefix}\${command} action - Get action recommendations\\n\`;
-    helpMessage += \`• \${prefix}\${command} romance - Get romance recommendations\\n\`;
+    helpMessage += '• ' + prefix + command + ' action - Get action recommendations\\n';
+    helpMessage += '• ' + prefix + command + ' romance - Get romance recommendations\\n';
   }
   
-  helpMessage += \`\\n⚡ *Status:* \${plugin.enabled ? '✅ Enabled' : '❌ Disabled'}\`;
+  helpMessage += '\\n⚡ *Status:* ' + (plugin.enabled ? '✅ Enabled' : '❌ Disabled');
   
   await client.sendMessage(message.from, helpMessage);
 }
@@ -156,26 +156,26 @@ async function showAllCommands(message, client, prefix) {
     pluginsByCategory[plugin.category].push(plugin);
   });
   
-  let commandsMessage = \`📋 *All Available Commands* 📋\\n\\n\`;
+  let commandsMessage = '📋 *All Available Commands* 📋\\n\\n';
   
   for (const category in pluginsByCategory) {
-    commandsMessage += \`*\${category.charAt(0).toUpperCase() + category.slice(1)}:*\\n\`;
+    commandsMessage += '*' + category.charAt(0).toUpperCase() + category.slice(1) + ':*\\n';
     pluginsByCategory[category].forEach(plugin => {
       const mainCommand = extractMainCommand(plugin.code, prefix);
       if (mainCommand) {
-        commandsMessage += \`• \${mainCommand} - \${plugin.description}\\n\`;
+        commandsMessage += '• ' + mainCommand + ' - ' + plugin.description + '\\n';
       }
     });
-    commandsMessage += \`\\n\`;
+    commandsMessage += '\\n';
   }
   
-  commandsMessage += \`🔧 *Utility Commands:*\\n\`;
-  commandsMessage += \`• \${prefix}help - Show help\\n\`;
-  commandsMessage += \`• \${prefix}commands - This command list\\n\`;
-  commandsMessage += \`• \${prefix}stats - Bot statistics\\n\`;
-  commandsMessage += \`• \${prefix}tutorial - Usage tutorial\\n\`;
+  commandsMessage += '🔧 *Utility Commands:*\\n';
+  commandsMessage += '• ' + prefix + 'help - Show help\\n';
+  commandsMessage += '• ' + prefix + 'commands - This command list\\n';
+  commandsMessage += '• ' + prefix + 'stats - Bot statistics\\n';
+  commandsMessage += '• ' + prefix + 'tutorial - Usage tutorial\\n';
   
-  commandsMessage += \`\\n📊 Total: \${enabledPlugins.length + 4} commands available\`;
+  commandsMessage += '\\n📊 Total: ' + (enabledPlugins.length + 4) + ' commands available';
   
   // Split long messages if needed
   if (commandsMessage.length > 16000) {
@@ -193,8 +193,8 @@ async function showBotStats(message, client, prefix) {
   const enabledPlugins = pluginService.listPlugins().filter(p => p.enabled);
   const totalCommands = enabledPlugins.length;
   
-  let statsMessage = \`📊 *Bot Statistics* 📊\\n\\n\`;
-  statsMessage += \`*Total Commands:* \${totalCommands}\\n\`;
+  let statsMessage = '📊 *Bot Statistics* 📊\\n\\n';
+  statsMessage += '*Total Commands:* ' + totalCommands + '\\n';
   
   // Category breakdown
   const categoryCount = {};
@@ -202,14 +202,14 @@ async function showBotStats(message, client, prefix) {
     categoryCount[plugin.category] = (categoryCount[plugin.category] || 0) + 1;
   });
   
-  statsMessage += \`*By Category:*\\n\`;
+  statsMessage += '*By Category:*\\n';
   for (const category in categoryCount) {
-    statsMessage += \`• \${category}: \${categoryCount[category]}\\n\`;
+    statsMessage += '• ' + category + ': ' + categoryCount[category] + '\\n';
   }
   
   // Command usage stats
   const totalUsage = Array.from(commandUsage.values()).reduce((sum, count) => sum + count, 0);
-  statsMessage += \`\\n*Command Usage:* \${totalUsage} total requests\\n\`;
+  statsMessage += '\\n*Command Usage:* ' + totalUsage + ' total requests\\n';
   
   // Top commands
   const topCommands = Array.from(commandUsage.entries())
@@ -217,33 +217,33 @@ async function showBotStats(message, client, prefix) {
     .slice(0, 5);
   
   if (topCommands.length > 0) {
-    statsMessage += \`*Top Commands:*\\n\`;
+    statsMessage += '*Top Commands:*\\n';
     topCommands.forEach(([cmd, count], index) => {
-      statsMessage += \`\${index + 1}. \${cmd} (\${count})\\n\`;
+      statsMessage += (index + 1) + '. ' + cmd + ' (' + count + ')\\n';
     });
   }
   
-  statsMessage += \`\\n*Help Requests:* \${helpRequests.size} users helped\`;
+  statsMessage += '\\n*Help Requests:* ' + helpRequests.size + ' users helped';
   
   await client.sendMessage(message.from, statsMessage);
 }
 
 async function showTutorial(message, client, prefix) {
-  const tutorialMessage = \`🎓 *Bot Tutorial* 🎓\\n\\n\` +
-    \`*1. Getting Started:*\\n` +
-    \`   • Start with \${prefix}help to see available commands\\n` +
-    \`   • Use \${prefix}commands for a complete list\\n\\n\` +
-    \`*2. Basic Usage:*\\n` +
-    \`   • Send \${prefix}ping to test if bot is working\\n` +
-    \`   • Use \${prefix}time to get current time\\n\\n\` +
-    \`*3. Anime Commands:*\\n` +
-    \`   • \${prefix}animeme - Get random anime meme\\n` +
-    \`   • \${prefix}quote - Random anime quote\\n` +
-    \`   • \${prefix}recommend <genre> - Anime recommendations\\n\\n\` +
-    \`*4. Need Help?*\\n` +
-    \`   • \${prefix}help <command> - Detailed command help\\n` +
-    \`   • Example: \${prefix}help animeme\\n\\n\` +
-    \`💡 *Tip:* All commands start with \${prefix} and are case-insensitive!\`;
+  const tutorialMessage = '🎓 *Bot Tutorial* 🎓\\n\\n' +
+    '*1. Getting Started:*\\n' +
+    '   • Start with ' + prefix + 'help to see available commands\\n' +
+    '   • Use ' + prefix + 'commands for a complete list\\n\\n' +
+    '*2. Basic Usage:*\\n' +
+    '   • Send ' + prefix + 'ping to test if bot is working\\n' +
+    '   • Use ' + prefix + 'time to get current time\\n\\n' +
+    '*3. Anime Commands:*\\n' +
+    '   • ' + prefix + 'animeme - Get random anime meme\\n' +
+    '   • ' + prefix + 'quote - Random anime quote\\n' +
+    '   • ' + prefix + 'recommend <genre> - Anime recommendations\\n\\n' +
+    '*4. Need Help?*\\n' +
+    '   • ' + prefix + 'help <command> - Detailed command help\\n' +
+    '   • Example: ' + prefix + 'help animeme\\n\\n' +
+    '💡 *Tip:* All commands start with ' + prefix + ' and are case-insensitive!';
   
   await client.sendMessage(message.from, tutorialMessage);
 }
@@ -255,7 +255,7 @@ function extractUsageExamples(pluginCode, prefix) {
   
   for (const line of lines) {
     if (line.includes('message.body') && line.includes(prefix)) {
-      const match = line.match(/message\.body\s*[!=]+\s*['"]([^'"]+)['"]/);
+      const match = line.match(/message\.body\\s*[!=]+\\s*['"]([^'"]+)['"]/);
       if (match && match[1]) {
         examples.push(match[1]);
       }
@@ -269,7 +269,7 @@ function extractMainCommand(pluginCode, prefix) {
   const lines = pluginCode.split('\\n');
   for (const line of lines) {
     if (line.includes('message.body') && line.includes(prefix)) {
-      const match = line.match(/message\.body\s*[!=]+\s*['"](\${prefix}[^'"]+)['"]/);
+      const match = line.match(/message\.body\\s*[!=]+\\s*['"](' + prefix + '[^'"]+)['"]/);
       if (match && match[1]) {
         return match[1];
       }
