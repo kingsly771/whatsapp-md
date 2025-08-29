@@ -10,8 +10,8 @@ module.exports = {
   "Roy Mustang": { rating: 8, comment: "Flame alchemist with ambition and style." }
 };
 
-async function husbandoRating(message, client, sessionId) {
-  if (message.body.startsWith('!ratehusbando')) {
+async function husbandoRating(message, client, sessionId, require, console, prefix) {
+  if (message.body.startsWith(prefix + 'ratehusbando')) {
     const husbandoName = message.body.split(' ').slice(1).join(' ');
     
     if (husbandoRatings[husbandoName]) {
@@ -41,7 +41,7 @@ async function husbandoRating(message, client, sessionId) {
     }
   }
   
-  if (message.body === '!tophusbandos') {
+  if (message.body === prefix + 'tophusbandos') {
     let response = '👑 Top Husbandos:\\n\\n';
     const sortedHusbandos = Object.entries(husbandoRatings)
       .sort((a, b) => b[1].rating - a[1].rating)
