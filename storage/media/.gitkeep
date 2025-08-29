@@ -1,0 +1,12 @@
+# Media Storage
+# =============
+# This directory stores downloaded media files from WhatsApp
+# Media files are ignored by git to avoid repository bloat
+#
+# Expected subdirectories:
+# - images/     # For image files
+# - videos/     # For video files  
+# - documents/  # For document files
+# - audio/      # For audio files
+#
+# Files are organized by type and timestamp
