@@ -25,8 +25,8 @@ module.exports = {
   }
 ];
 
-async function animeQuotes(message, client, sessionId) {
-  if (message.body === '!quote') {
+async function animeQuotes(message, client, sessionId, require, console, prefix) {
+  if (message.body === prefix + 'quote') {
     const randomQuote = animeQuotes[Math.floor(Math.random() * animeQuotes.length)];
     
     await client.sendMessage(message.from, 
