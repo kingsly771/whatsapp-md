@@ -1,0 +1,9 @@
+# Application Logs
+# ================
+# This directory stores application log files
+# Log files are ignored by git as they may contain sensitive information
+#
+# Log files are rotated automatically based on size and age
+# Log levels: error, warn, info, debug, trace
+#
+# Never commit log files to version control
