@@ -10,8 +10,8 @@ module.exports = {
   { japanese: "頑張って", romaji: "Ganbatte", english: "Do your best" }
 ];
 
-async function japaneseLearning(message, client, sessionId) {
-  if (message.body === '!learnjapanese') {
+async function japaneseLearning(message, client, sessionId, require, console, prefix) {
+  if (message.body === prefix + 'learnjapanese') {
     const randomPhrase = japanesePhrases[Math.floor(Math.random() * japanesePhrases.length)];
     
     await client.sendMessage(message.from, 
@@ -22,7 +22,7 @@ async function japaneseLearning(message, client, sessionId) {
     );
   }
   
-  if (message.body.startsWith('!translate')) {
+  if (message.body.startsWith(prefix + 'translate')) {
     const text = message.body.split(' ').slice(1).join(' ');
     
     if (text) {
