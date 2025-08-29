@@ -22,8 +22,8 @@ cron.schedule('0 10 * * *', async () => {
   }
 });
 
-async function mangaReleases(message, client, sessionId) {
-  if (message.body.startsWith('!trackmangareleases')) {
+async function mangaReleases(message, client, sessionId, require, console, prefix) {
+  if (message.body.startsWith(prefix + 'trackmangareleases')) {
     const mangaName = message.body.split(' ').slice(1).join(' ');
     
     if (!mangaReleases.has(mangaName)) {
@@ -37,7 +37,7 @@ async function mangaReleases(message, client, sessionId) {
     );
   }
   
-  if (message.body.startsWith('!stoptracking')) {
+  if (message.body.startsWith(prefix + 'stoptracking')) {
     const mangaName = message.body.split(' ').slice(1).join(' ');
     
     if (mangaReleases.has(mangaName)) {
