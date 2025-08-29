@@ -45,6 +45,25 @@ const helpers = {
     return new Date().toISOString().replace('T', ' ').substring(0, 19);
   },
   
+  // Command parsing utilities
+  extractCommand: (messageBody, prefix = config.bot.prefix) => {
+    if (!messageBody.startsWith(prefix)) return null;
+    return messageBody.slice(prefix.length).trim().split(' ')[0].toLowerCase();
+  },
+  
+  extractArgs: (messageBody, prefix = config.bot.prefix) => {
+    if (!messageBody.startsWith(prefix)) return [];
+    return messageBody.slice(prefix.length).trim().split(' ').slice(1);
+  },
+  
+  isCommand: (messageBody, prefix = config.bot.prefix) => {
+    return messageBody.startsWith(prefix);
+  },
+  
+  isAdminCommand: (messageBody) => {
+    return messageBody.startsWith(config.bot.adminPrefix);
+  },
+  
   // Otaku-specific helpers
   sanitizeAnimeTitle: (title) => {
     return title.replace(/[^a-zA-Z0-9\s]/g, '').trim();
