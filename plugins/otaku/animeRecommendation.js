@@ -1,29 +1,46 @@
 module.exports = {
-  name: 'Anime Recommendation',
-  description: 'Recommends anime based on preferences',
+  name: 'Manga Recommendation',
+  description: 'Recommends manga based on preferences',
   version: '1.0.0',
-  code: `const axios = require('axios');
+  code: `const mangaRecommendations = {
+  "action": ["One Piece", "Attack on Titan", "Berserk", "Kingdom", "Vinland Saga"],
+  "romance": ["Fruits Basket", "Horimiya", "Kaguya-sama: Love is War", "Nana", "Orange"],
+  "comedy": ["Gintama", "Grand Blue", "Prison School", "Hinamatsuri", "Kaguya-sama: Love is War"],
+  "horror": ["Junji Ito Collection", "Parasyte", "Tokyo Ghoul", "Uzumaki", "I Am a Hero"],
+  "sliceoflife": ["Yotsuba&!", "Barakamon", "Silver Spoon", "Aria", "Natsume's Book of Friends"]
+};
 
-async function animeRecommendation(message, client, sessionId, require, console, prefix) {
-  if (message.body.startsWith(prefix + 'recommend')) {
+async function mangaRecommendation(message, client, sessionId, require, console, prefix) {
+  if (message.body.startsWith(prefix + 'recommendmanga')) {
     const genre = message.body.split(' ')[1] || 'action';
     
-    try {
-      // This would call an actual anime API in a real implementation
-      const response = await axios.get(\`https://api.example.com/anime?genre=\${genre}\`);
-      const recommendation = response.data[0];
+    if (mangaRecommendations[genre]) {
+      const recommendations = mangaRecommendations[genre];
+      const randomManga = recommendations[Math.floor(Math.random() * recommendations.length)];
       
       await client.sendMessage(message.from, 
-        \`🎌 Recommended Anime: \${recommendation.title}\\n\\n` +
-        \`📺 Episodes: \${recommendation.episodes}\\n` +
-        \`⭐ Rating: \${recommendation.rating}\\n` +
-        \`📖 Synopsis: \${recommendation.synopsis.substring(0, 200)}...\`
+        \`📚 Manga Recommendation (\${genre}):\\n\\n` +
+        \`\${randomManga}\\n\\n` +
+        \`Available genres: action, romance, comedy, horror, sliceoflife\`
       );
-    } catch (error) {
+    } else {
       await client.sendMessage(message.from, 
-        \`❌ Could not fetch anime recommendations. Try again later.\`
+        \`Unknown genre: \${genre}\\n` +
+        \`Available genres: action, romance, comedy, horror, sliceoflife\`
       );
     }
+  }
+  
+  if (message.body === prefix + 'mangagenres') {
+    await client.sendMessage(message.from, 
+      \`📖 Manga Genres Available:\\n\\n` +
+      \`• action\\n` +
+      \`• romance\\n` +
+      \`• comedy\\n` +
+      \`• horror\\n` +
+      \`• sliceoflife\\n\\n` +
+      \`Use \${prefix}recommendmanga <genre> for recommendations\`
+    );
   }
 }`
 };
