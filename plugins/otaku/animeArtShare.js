@@ -4,8 +4,8 @@ module.exports = {
   version: '1.0.0',
   code: `const artSubmissions = new Map();
 
-async function animeArtShare(message, client, sessionId) {
-  if (message.body.startsWith('!submitart')) {
+async function animeArtShare(message, client, sessionId, require, console, prefix) {
+  if (message.body.startsWith(prefix + 'submitart')) {
     const description = message.body.split(' ').slice(1).join(' ');
     
     if (message.hasMedia) {
@@ -27,12 +27,12 @@ async function animeArtShare(message, client, sessionId) {
     } else {
       await client.sendMessage(message.from, 
         \`Please include an image with your art submission!\\n` +
-        \`Usage: !submitart <description> with an attached image\`
+        \`Usage: \${prefix}submitart <description> with an attached image\`
       );
     }
   }
   
-  if (message.body === '!featuredart') {
+  if (message.body === prefix + 'featuredart') {
     if (artSubmissions.size === 0) {
       await client.sendMessage(message.from, "No art submissions yet!");
       return;
@@ -52,7 +52,7 @@ async function animeArtShare(message, client, sessionId) {
     );
   }
   
-  if (message.body.startsWith('!likeart')) {
+  if (message.body.startsWith(prefix + 'likeart')) {
     const artId = message.body.split(' ')[1];
     
     if (artSubmissions.has(artId)) {
