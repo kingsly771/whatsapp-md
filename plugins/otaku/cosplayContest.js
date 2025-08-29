@@ -5,8 +5,8 @@ module.exports = {
   code: `const cosplayContests = new Map();
 const contestEntries = new Map();
 
-async function cosplayContest(message, client, sessionId) {
-  if (message.body.startsWith('!createcontest')) {
+async function cosplayContest(message, client, sessionId, require, console, prefix) {
+  if (message.body.startsWith(prefix + 'createcontest')) {
     const contestName = message.body.split(' ').slice(1).join(' ');
     
     if (contestName) {
@@ -21,12 +21,12 @@ async function cosplayContest(message, client, sessionId) {
         \`🎭 Cosplay Contest Created!\\n\\n` +
         \`Name: \${contestName}\\n` +
         \`Ends: \${cosplayContests.get(contestName).endDate.toDateString()}\\n\\n` +
-        \`Use !entercontest \${contestName} to participate!\`
+        \`Use \${prefix}entercontest \${contestName} to participate!\`
       );
     }
   }
   
-  if (message.body.startsWith('!entercontest')) {
+  if (message.body.startsWith(prefix + 'entercontest')) {
     const contestName = message.body.split(' ').slice(1).join(' ');
     const contest = cosplayContests.get(contestName);
     
@@ -39,7 +39,7 @@ async function cosplayContest(message, client, sessionId) {
     }
   }
   
-  if (message.body.startsWith('!contestinfo')) {
+  if (message.body.startsWith(prefix + 'contestinfo')) {
     const contestName = message.body.split(' ').slice(1).join(' ');
     const contest = cosplayContests.get(contestName);
     
