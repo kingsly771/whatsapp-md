@@ -19,8 +19,8 @@ module.exports = {
   }
 };
 
-async function animeOpenings(message, client, sessionId) {
-  if (message.body.startsWith('!opening')) {
+async function animeOpenings(message, client, sessionId, require, console, prefix) {
+  if (message.body.startsWith(prefix + 'opening')) {
     const animeName = message.body.split(' ').slice(1).join(' ');
     
     if (animeOpenings[animeName]) {
@@ -37,7 +37,7 @@ async function animeOpenings(message, client, sessionId) {
     }
   }
   
-  if (message.body === '!randomopening') {
+  if (message.body === prefix + 'randomopening') {
     const animes = Object.keys(animeOpenings);
     const randomAnime = animes[Math.floor(Math.random() * animes.length)];
     const seasons = Object.keys(animeOpenings[randomAnime]);
