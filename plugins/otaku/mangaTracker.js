@@ -8,8 +8,8 @@ const path = require('path');
 // In-memory storage for demo (use database in production)
 const mangaProgress = new Map();
 
-async function mangaTracker(message, client, sessionId) {
-  if (message.body.startsWith('!trackmanga')) {
+async function mangaTracker(message, client, sessionId, require, console, prefix) {
+  if (message.body.startsWith(prefix + 'trackmanga')) {
     const mangaName = message.body.split(' ').slice(1).join(' ');
     
     if (mangaName) {
@@ -20,7 +20,7 @@ async function mangaTracker(message, client, sessionId) {
     }
   }
   
-  if (message.body.startsWith('!mangaprogress')) {
+  if (message.body.startsWith(prefix + 'mangaprogress')) {
     const mangaName = message.body.split(' ')[1];
     const chapter = parseInt(message.body.split(' ')[2]);
     
