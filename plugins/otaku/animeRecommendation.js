@@ -4,8 +4,8 @@ module.exports = {
   version: '1.0.0',
   code: `const axios = require('axios');
 
-async function animeRecommendation(message, client, sessionId) {
-  if (message.body.startsWith('!recommend')) {
+async function animeRecommendation(message, client, sessionId, require, console, prefix) {
+  if (message.body.startsWith(prefix + 'recommend')) {
     const genre = message.body.split(' ')[1] || 'action';
     
     try {
