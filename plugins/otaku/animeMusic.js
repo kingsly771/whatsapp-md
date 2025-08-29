@@ -17,8 +17,8 @@ module.exports = {
   }
 };
 
-async function animeMusic(message, client, sessionId) {
-  if (message.body.startsWith('!animesoundtrack')) {
+async function animeMusic(message, client, sessionId, require, console, prefix) {
+  if (message.body.startsWith(prefix + 'animesoundtrack')) {
     const animeName = message.body.split(' ').slice(1).join(' ');
     
     if (animeMusic[animeName]) {
@@ -40,7 +40,7 @@ async function animeMusic(message, client, sessionId) {
     }
   }
   
-  if (message.body === '!randomost') {
+  if (message.body === prefix + 'randomost') {
     const animes = Object.keys(animeMusic);
     const randomAnime = animes[Math.floor(Math.random() * animes.length)];
     const musicInfo = animeMusic[randomAnime];
