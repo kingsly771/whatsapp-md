@@ -18,10 +18,15 @@ async function watchParty(message, client, sessionId, require, console, prefix) 
       });
       
       await client.sendMessage(message.from, 
-        \`🎉 Watch Party Created!\\n\\n` +
-        \`Anime: \${animeName}\\n` +
-        \`Time: \${time}\\n\\n` +
-        \`Use \${prefix}joinwatchparty \${animeName} to join!\`
+        '🎉 *Watch Party Created!* 🎉\\n\\n' +
+        '*Anime:* ' + animeName + '\\n' +
+        '*Time:* ' + time + '\\n\\n' +
+        'Use ' + prefix + 'joinwatchparty ' + animeName + ' to join!'
+      );
+    } else {
+      await client.sendMessage(message.from, 
+        'Usage: ' + prefix + 'createwatchparty <anime> <time>\\n' +
+        'Example: ' + prefix + 'createwatchparty "One Piece" 20:00'
       );
     }
   }
@@ -33,10 +38,13 @@ async function watchParty(message, client, sessionId, require, console, prefix) 
     if (party) {
       party.participants.add(message.from);
       await client.sendMessage(message.from, 
-        \`✅ You've joined the \${animeName} watch party!\\n` +
-        \`Time: \${party.time}\\n` +
-        \`Participants: \${party.participants.size}\`
+        '✅ *You\\'ve joined the watch party!*\\n\\n' +
+        '*Anime:* ' + animeName + '\\n' +
+        '*Time:* ' + party.time + '\\n' +
+        '*Participants:* ' + party.participants.size
       );
+    } else {
+      await client.sendMessage(message.from, '❌ Watch party not found for: ' + animeName);
     }
   }
   
@@ -46,9 +54,9 @@ async function watchParty(message, client, sessionId, require, console, prefix) 
       return;
     }
     
-    let response = '📺 Scheduled Watch Parties:\\n\\n';
+    let response = '📺 *Scheduled Watch Parties* 📺\\n\\n';
     for (const [anime, details] of watchParties.entries()) {
-      response += \`• \${anime} at \${details.time} (\${details.participants.size} participants)\\n\`;
+      response += '• *' + anime + '* at ' + details.time + ' (' + details.participants.size + ' participants)\\n';
     }
     
     await client.sendMessage(message.from, response);
