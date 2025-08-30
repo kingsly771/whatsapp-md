@@ -3,100 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsApp Bot Manager</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>WhatsApp Bot Control Panel</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f0f2f5; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        header { background: #25D366; color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+        .card { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .endpoint { background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 10px 0; font-family: monospace; }
+        button { background: #25D366; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin: 5px; }
+        button:hover { background: #128C7E; }
+        .result { background: #f8f9fa; padding: 15px; border-radius: 5px; margin-top: 10px; font-family: monospace; white-space: pre-wrap; }
+    </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1><i class="fab fa-whatsapp"></i> WhatsApp Bot Manager</h1>
-            <p class="subtitle">Manage your bot with prefix: <span id="botPrefix" class="prefix-display">!</span></p>
+            <h1>WhatsApp Bot Control Panel</h1>
+            <p>Manage your WhatsApp bot through the API endpoints</p>
         </header>
 
-        <div class="connection-panel">
-            <div class="qr-code">
-                <h2>QR Code Connection</h2>
-                <div class="qr-placeholder">
-                    <div id="qrcode">QR Code will appear here</div>
-                </div>
-                <button class="btn" onclick="createSession()">
-                    <i class="fas fa-qrcode"></i> Generate QR Code
-                </button>
+        <div class="card">
+            <h2>API Endpoints</h2>
+            
+            <div class="endpoint">
+                GET /health - Server health check
+                <button onclick="testEndpoint('/health')">Test</button>
             </div>
             
-            <div class="pairing-code">
-                <h2>Session Management</h2>
-                <div class="session-status">
-                    <div class="status">
-                        <div class="status-dot" id="statusDot"></div>
-                        <span id="statusText">Disconnected</span>
-                    </div>
-                    <div id="sessionIdDisplay">Session ID: Not set</div>
-                </div>
-                <button class="btn" onclick="checkStatus()">
-                    <i class="fas fa-sync"></i> Check Status
-                </button>
-                <button class="btn btn-danger" onclick="disconnectSession()">
-                    <i class="fas fa-plug"></i> Disconnect
-                </button>
+            <div class="endpoint">
+                GET /api/status - Server status
+                <button onclick="testEndpoint('/api/status')">Test</button>
             </div>
-        </div>
-
-        <div class="bot-config">
-            <h2>Bot Configuration</h2>
-            <div class="config-item">
-                <label>Command Prefix:</label>
-                <span class="prefix-value" id="commandPrefix">!</span>
-            </div>
-            <div class="config-item">
-                <label>Admin Prefix:</label>
-                <span class="prefix-value" id="adminPrefix">!!</span>
-            </div>
-        </div>
-
-        <div class="plugins-section">
-            <h2>Available Plugins <span class="plugin-count">(<span id="pluginCount">0</span>)</span></h2>
             
-            <div class="filter-controls">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="general">General</button>
-                <button class="filter-btn" data-filter="otaku">Otaku</button>
-                <button class="filter-btn" data-filter="enabled">Enabled</button>
-                <button class="filter-btn" data-filter="disabled">Disabled</button>
+            <div class="endpoint">
+                GET /api/sessions - List sessions
+                <button onclick="testEndpoint('/api/sessions')">Test</button>
+            </div>
+            
+            <div class="endpoint">
+                GET /api/plugins - List plugins
+                <button onclick="testEndpoint('/api/plugins')">Test</button>
             </div>
 
-            <div class="plugins-container" id="pluginsContainer">
-                <!-- Plugins will be loaded here -->
-            </div>
+            <div id="result" class="result">Click "Test" on an endpoint to see results...</div>
         </div>
 
-        <div class="command-help">
-            <h2>Command Usage</h2>
-            <div class="help-content">
-                <p>All commands start with: <code id="helpPrefix">!</code></p>
-                <div class="command-examples">
-                    <h4>Examples:</h4>
-                    <ul>
-                        <li><code>!help</code> - Show help</li>
-                        <li><code>!animeme</code> - Get random anime meme</li>
-                        <li><code>!recommend action</code> - Get anime recommendation</li>
-                        <li><code>!!admin</code> - Admin commands (if configured)</li>
-                    </ul>
-                </div>
-            </div>
+        <div class="card">
+            <h2>Quick Actions</h2>
+            <button onclick="createSession()">Create New Session</button>
+            <button onclick="getSessions()">Get All Sessions</button>
+            <button onclick="getPlugins()">Get All Plugins</button>
         </div>
     </div>
 
-    <!-- Notification System -->
-    <div id="notification" class="notification hidden">
-        <span id="notificationMessage"></span>
-    </div>
+    <script>
+        const API_BASE = window.location.origin;
 
-    <!-- Scripts -->
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="js/sessionManager.js"></script>
-    <script src="js/pluginManager.js"></script>
-    <script src="js/app.js"></script>
+        async function testEndpoint(endpoint) {
+            try {
+                const response = await fetch(API_BASE + endpoint);
+                const data = await response.json();
+                document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('result').textContent = 'Error: ' + error.message;
+            }
+        }
+
+        async function createSession() {
+            try {
+                const response = await fetch(API_BASE + '/api/sessions', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ sessionId: 'browser-session' })
+                });
+                const data = await response.json();
+                document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('result').textContent = 'Error: ' + error.message;
+            }
+        }
+
+        async function getSessions() {
+            try {
+                const response = await fetch(API_BASE + '/api/sessions');
+                const data = await response.json();
+                document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('result').textContent = 'Error: ' + error.message;
+            }
+        }
+
+        async function getPlugins() {
+            try {
+                const response = await fetch(API_BASE + '/api/plugins');
+                const data = await response.json();
+                document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('result').textContent = 'Error: ' + error.message;
+            }
+        }
+
+        // Test health endpoint on page load
+        window.addEventListener('load', () => {
+            testEndpoint('/health');
+        });
+    </script>
 </body>
 </html>
