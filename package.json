@@ -1,29 +1,110 @@
 {
-  "name": "whatsapp-bot-otaku",
-  "version": "1.0.0",
-  "description": "WhatsApp Bot with specialized plugins for Otaku groups",
+  "name": "whatsapp-bot-bailey",
+  "version": "2.0.0",
+  "description": "WhatsApp Bot with 50+ plugins using Bailey WhatsApp API",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "jest",
-    "lint": "eslint ."
+    "test": "jest --testTimeout=30000",
+    "lint": "eslint .",
+    "docker:build": "docker build -t whatsapp-bot .",
+    "docker:run": "docker run -p 3000:3000 -d --name whatsapp-bot whatsapp-bot",
+    "docker:dev": "docker-compose -f docker-compose.dev.yml up --build",
+    "docker:prod": "docker-compose up --build -d",
+    "docker:stop": "docker stop whatsapp-bot && docker rm whatsapp-bot",
+    "docker:logs": "docker logs -f whatsapp-bot",
+    "docker:shell": "docker exec -it whatsapp-bot sh",
+    "docker:restart": "docker restart whatsapp-bot",
+    "panel-setup": "node scripts/panel-setup.js",
+    "panel-start": "pm2 start index.js --name whatsapp-bot",
+    "panel-stop": "pm2 stop whatsapp-bot",
+    "panel-restart": "pm2 restart whatsapp-bot",
+    "panel-logs": "pm2 logs whatsapp-bot",
+    "bailey-test": "node tests/bailey-test.js",
+    "deploy:heroku": "git push heroku main",
+    "deploy:panel": "node scripts/deploy-panel.js"
   },
-  "keywords": ["whatsapp", "bot", "otaku", "anime", "manga"],
+  "keywords": [
+    "whatsapp",
+    "bot",
+    "bailey",
+    "automation",
+    "api",
+    "otaku",
+    "anime",
+    "plugins"
+  ],
   "author": "Your Name",
   "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
   "dependencies": {
+    "@whiskeysockets/baileys": "^6.4.0",
     "express": "^4.18.2",
     "qrcode": "^1.5.3",
-    "whatsapp-web.js": "^1.23.0",
     "socket.io": "^4.7.2",
     "dotenv": "^16.3.1",
     "axios": "^1.5.0",
-    "node-cron": "^3.0.2"
+    "node-cron": "^3.0.2",
+    "pm2": "^5.3.0",
+    "multer": "^1.4.5",
+    "sharp": "^0.32.6",
+    "redis": "^4.6.8",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "compression": "^1.7.4",
+    "morgan": "^1.10.0",
+    "winston": "^3.10.0",
+    "joi": "^17.9.2",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "nodemon": "^3.0.1",
     "jest": "^29.6.4",
-    "eslint": "^8.48.0"
+    "eslint": "^8.48.0",
+    "@types/jest": "^29.5.5",
+    "supertest": "^6.3.3",
+    "docker-compose": "^1.29.2"
+  },
+  "cacheDirectories": [
+    "node_modules",
+    "storage/sessions"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingsly771/whatsapp-md.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kingsly771/whatsapp-md/issues"
+  },
+  "homepage": "https://github.com/kingsly771/whatsapp-md#README.md",
+  "funding": {
+    "type": "individual",
+    "url": "https://github.com/kingsly771/whatsapp-md"
+  },
+  "volunteers": [
+    {
+      "name": "Godrick",
+      "email": "lightkenshiro@gmail.com"
+    }
+  ],
+  "os": [
+    "linux",
+    "darwin",
+    "win32"
+  ],
+  "cpu": [
+    "x64",
+    "arm64"
+  ],
+  "private": true,
+  "publishConfig": {
+    "access": "restricted",
+    "registry": "https://registry.npmjs.org/"
   }
 }
